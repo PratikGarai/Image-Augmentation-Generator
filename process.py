@@ -54,7 +54,7 @@ class Pipeline:
         self.args.append(types)
 
     def processOne(self, img):
-        res = img
+        res = img.copy()
         for i in range(len(self.operations)):
             arg = random.choice(self.args[i])
             if arg != None:
