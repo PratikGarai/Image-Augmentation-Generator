@@ -19,7 +19,7 @@ class Pipeline:
         if low >= high:
             raise "Invalid low high combination"
 
-        r = [None]
+        r = [None for i in range(5)]
         diff = (high-low)//10
         for i in range(11):
             r.append((low+(i*diff)))
@@ -27,31 +27,34 @@ class Pipeline:
         self.args.append(r)
 
     def addJitter(self, types):
-        r = [None]
+        r = [None for i in range(2)]
         s = set(["b", "s", "c"])
         for i in types:
             if i not in s:
                 raise "Invalid type"
         self.operations.append(colorjitter)
-        self.args.append(types)
+        r.extend(types)
+        self.args.append(r)
 
     def addNoise(self, types):
-        r = [None]
+        r = [None for i in range(2)]
         s = set(["gauss", "sp"])
         for i in types:
             if i not in s:
                 raise "Invalid type"
         self.operations.append(noisy)
-        self.args.append(types)
+        r.extend(types)
+        self.args.append(r)
 
     def addFilter(self, types):
-        r = [None]
+        r = [None for i in range(2)]
         s = set(["blur", "gaussian", "median"])
         for i in types:
             if i not in s:
                 raise "Invalid type"
         self.operations.append(filters)
-        self.args.append(types)
+        r.extend(types)
+        self.args.append(r)
 
     def processOne(self, img):
         res = img.copy()
@@ -67,9 +70,9 @@ if __name__ == "__main__":
     im = cv2.resize(im, (600, 600))
     p = Pipeline()
     p.addCrop(0.75, 0.95)
-    p.addNoise(["gauss"])
-    p.addJitter(["b", "c"])
-    p.addFilter(["gaussian", "blur"])
+    p.addNoise(["gauss", "sp"])
+    p.addJitter(["b", "c", "s"])
+    p.addFilter(["gaussian", "blur", "median"])
     res = p.processOne(im)
     cv2.imshow("Result", res)
     

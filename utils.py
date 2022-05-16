@@ -78,7 +78,7 @@ def noisy(img, noise_type="gauss"):
     if noise_type == "gauss":
         image = img.copy()
         mean = 0
-        st = 0.7
+        st = 0.5
         gauss = np.random.normal(mean, st, image.shape)
         gauss = gauss.astype('uint8')
         image = cv2.add(image, gauss)

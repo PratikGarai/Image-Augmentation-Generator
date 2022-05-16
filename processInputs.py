@@ -7,9 +7,9 @@ if __name__ == "__main__":
     replicas = 10
     p = Pipeline()
     p.addCrop(0.75, 0.95)
-    p.addNoise(["gauss"])
-    p.addJitter(["b", "c"])
-    p.addFilter(["gaussian", "blur"])
+    p.addNoise(["gauss", "sp"])
+    p.addJitter(["b", "c", "s"])
+    p.addFilter(["gaussian", "blur", "median"])
     
     for fname in os.listdir("inputs"):
         name, extension = fname.split(".")
